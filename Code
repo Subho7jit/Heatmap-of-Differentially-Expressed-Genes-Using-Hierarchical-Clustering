@@ -1,0 +1,16 @@
+library(stats)
+
+# Log-transform the gene expression values
+df_log = log2(df + 1)
+
+# Cluster the rows and columns of the log-transformed data
+df_dist = dist(t(df_log))
+df_hc = hclust(df_dist)
+
+# Plot the heatmap
+heatmap(df_log, Rowv = as.dendrogram(df_hc), Colv = FALSE, 
+        col = colorRampPalette(c("blue", "white", "red"))(100),
+        scale = "none",
+        main = "Heatmap of Differentially Expressed Genes",
+        xlab = "Sample", ylab = "Gene",
+        labRow = group)
